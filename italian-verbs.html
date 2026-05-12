@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verbi Italiani</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0e0e0f;--surf:#161618;--surf2:#1e1e21;
+  --b1:#2a2a2e;--b2:#353538;
+  --tx:#f0ede8;--mu:#7a7870;--di:#4a4845;
+  --ac:#d4a853;--gr:#4caf7d;--re:#e05c5c;
+  --bl:#5b9bd5;--pu:#9b7ed4;--te:#4db8a4;
+}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.5;display:flex;flex-direction:column}
+
+/* ── TOP BAR ── */
+.top{display:flex;align-items:center;gap:12px;padding:10px 18px;border-bottom:1px solid var(--b1);flex-shrink:0;background:var(--surf)}
+.logo{font-family:'Playfair Display',serif;font-size:18px;color:var(--ac);font-style:italic;white-space:nowrap;cursor:pointer;user-select:none}
+.logo:hover{opacity:.75}
+.logo span{font-style:normal;color:var(--di);font-size:11px;margin-left:5px;font-family:'DM Sans',sans-serif}
+.sw{position:relative;flex:1;max-width:240px}
+.sw input{width:100%;background:var(--surf2);border:1px solid var(--b1);border-radius:8px;padding:7px 10px 7px 28px;color:var(--tx);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .15s}
+.sw input:focus{border-color:var(--ac)}
+.sw input::placeholder{color:var(--di)}
+.si{position:absolute;left:8px;top:50%;transform:translateY(-50%);color:var(--di);font-size:14px;pointer-events:none}
+.fbs{display:flex;gap:4px}
+.fb{padding:5px 10px;border-radius:6px;border:1px solid var(--b1);background:transparent;color:var(--mu);cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;transition:all .15s}
+.fb:hover{color:var(--tx);border-color:var(--b2)}
+.fb.on{background:var(--ac);border-color:var(--ac);color:#000;font-weight:500}
+.st{margin-left:auto;color:var(--di);font-size:12px;white-space:nowrap}
+
+/* ── LAYOUT ── */
+.body{display:flex;flex:1;overflow:hidden}
+
+/* ── SIDEBAR ── */
+.sidebar{width:215px;flex-shrink:0;border-right:1px solid var(--b1);overflow-y:auto;padding:6px}
+.sidebar::-webkit-scrollbar{width:3px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
+.gl{font-size:10px;color:var(--di);padding:10px 8px 4px;text-transform:uppercase;letter-spacing:.1em;font-family:'DM Mono',monospace}
+.vi{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:7px;cursor:pointer;transition:background .1s;border:1px solid transparent}
+.vi:hover{background:var(--surf2)}
+.vi.sel{background:var(--surf2);border-color:var(--b2)}
+.ve{font-size:14px;width:20px;text-align:center;flex-shrink:0}
+.vt{flex:1;min-width:0}
+.vit{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ven{font-size:11px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vb{font-size:10px;padding:1px 5px;border-radius:4px;font-family:'DM Mono',monospace;flex-shrink:0}
+.are{background:#1a2a1a;color:var(--gr)}.ere{background:#1a1a2a;color:var(--bl)}.ire{background:#2a1a2a;color:var(--pu)}.irr{background:#2a1a1a;color:var(--re)}
+
+/* ── MAIN ── */
+.main{flex:1;overflow-y:auto;padding:28px 32px 64px}
+.main::-webkit-scrollbar{width:4px}
+.main::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
+
+/* ── VERB HEADER ── */
+.vh{margin-bottom:32px;padding-bottom:22px;border-bottom:1px solid var(--b1)}
+.vti{font-family:'Playfair Display',serif;font-size:46px;font-weight:700;color:var(--ac);line-height:1;margin-bottom:6px}
+.ven2{font-family:'Playfair Display',serif;font-size:17px;color:var(--tx);font-style:italic;margin-bottom:10px}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:11px;padding:2px 8px;border-radius:4px;font-family:'DM Mono',monospace;border:1px solid}
+.tare{background:#1a2a1a;color:var(--gr);border-color:#2a4a2a}
+.tere{background:#1a1a2a;color:var(--bl);border-color:#2a2a4a}
+.tire{background:#2a1a2a;color:var(--pu);border-color:#3a2a3a}
+.tirr{background:#2a1a1a;color:var(--re);border-color:#4a2a2a}
+.taux{background:var(--surf2);color:var(--mu);border-color:var(--b1)}
+
+/* ── TENSE BLOCK ── */
+.tb{padding-top:36px;margin-top:36px;border-top:1px solid var(--b1)}
+.tb:first-of-type{padding-top:0;margin-top:0;border-top:none}
+.th{display:flex;align-items:baseline;gap:10px;margin-bottom:5px}
+.tn{font-family:'Playfair Display',serif;font-size:21px;font-weight:700;color:var(--tx)}
+.te2{font-size:11px;color:var(--di);font-family:'DM Mono',monospace}
+.note{font-size:13px;color:var(--mu);margin-bottom:14px;line-height:1.65;max-width:600px}
+.note em{color:var(--ac);font-style:normal}
+
+/* ── CONJUGATION GRID ── */
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:14px}
+.cr{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:7px;background:var(--surf);border:1px solid var(--b1);transition:border-color .1s}
+.cr:hover{border-color:var(--b2)}
+.pro{font-size:11px;color:var(--di);font-family:'DM Mono',monospace;min-width:56px}
+.form{font-size:15px;font-weight:500;color:var(--tx);font-family:'Playfair Display',serif}
+.aux-e{font-size:12px;color:var(--te);font-family:'DM Mono',monospace;margin-right:4px}
+.aux-a{font-size:12px;color:var(--pu);font-family:'DM Mono',monospace;margin-right:4px}
+
+/* ── PROGRESSIVE ── */
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:14px}
+.pr{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:7px;background:var(--surf);border:1px solid var(--b1);transition:border-color .1s}
+.pr:hover{border-color:var(--b2)}
+.pst{color:var(--te);font-family:'DM Mono',monospace;font-size:12px;min-width:44px}
+.pge{color:var(--tx);font-family:'Playfair Display',serif;font-size:15px}
+
+/* ── EXAMPLES ── */
+.exs{display:flex;flex-direction:column;gap:6px}
+.ex{border-left:2px solid var(--b2);border-radius:0 7px 7px 0;padding:10px 14px;background:var(--surf2)}
+.ex.hi{border-left-color:var(--ac)}
+.ei{font-family:'Playfair Display',serif;font-size:15px;color:var(--tx);margin-bottom:3px}
+.ee{font-size:12px;color:var(--mu);font-style:italic}
+
+/* ── NAV ── */
+.nav{display:flex;align-items:center;gap:8px;margin-top:48px;padding-top:22px;border-top:1px solid var(--b1)}
+.nb{padding:7px 16px;border-radius:7px;border:1px solid var(--b1);background:transparent;color:var(--mu);cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;transition:all .15s}
+.nb:hover:not(:disabled){border-color:var(--b2);color:var(--tx);background:var(--surf2)}
+.nb:disabled{opacity:.3;cursor:default}
+.nc{margin:0 auto;font-size:12px;color:var(--di)}
+.nc b{color:var(--mu)}
+
+/* ── QUIZ ── */
+.qq{font-family:'Playfair Display',serif;font-size:21px;color:var(--tx);margin-bottom:18px;line-height:1.4}
+.qq em{color:var(--ac);font-style:normal}
+.qo{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:16px}
+.qb{padding:12px 15px;border-radius:8px;border:1px solid var(--b1);background:var(--surf);color:var(--tx);cursor:pointer;text-align:left;font-family:'Playfair Display',serif;font-size:14px;transition:all .15s}
+.qb:hover:not(:disabled){border-color:var(--b2);background:var(--surf2)}
+.qb.ok{border-color:var(--gr)!important;background:#0d1f13!important;color:var(--gr)!important}
+.qb.no{border-color:var(--re)!important;background:#1f0d0d!important;color:var(--re)!important}
+.qmeta{display:flex;align-items:center;gap:10px;color:var(--di);font-size:13px;margin-top:6px}
+.qsc{color:var(--ac);font-family:'DM Mono',monospace}
+.qrs{padding:4px 10px;border-radius:6px;border:1px solid var(--b1);background:transparent;color:var(--mu);cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif}
+.qrs:hover{border-color:var(--ac);color:var(--ac)}
+.qnx{padding:8px 18px;border-radius:7px;border:1px solid var(--ac);background:transparent;color:var(--ac);cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;transition:all .15s}
+.qnx:hover{background:var(--ac);color:#000}
+
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:80%;color:var(--di);gap:8px}
+.ebig{font-family:'Playfair Display',serif;font-size:64px;opacity:.12;font-style:italic}
+
+/* ── MOBILE ── */
+@media(max-width:640px){
+  html,body{overflow:hidden}
+  .top{padding:8px 12px;gap:8px;flex-wrap:wrap}
+  .logo{font-size:16px}
+  .sw{max-width:none;flex:1 1 100%;order:3}
+  .fbs{order:4;flex:1 1 100%;overflow-x:auto;padding-bottom:2px;gap:4px;flex-wrap:nowrap}
+  .st{display:none}
+  .body{flex-direction:column}
+  .sidebar{width:100%;height:auto;max-height:38px;border-right:none;border-bottom:1px solid var(--b1);overflow:hidden;padding:0;display:flex;align-items:stretch;flex-shrink:0;transition:max-height .25s ease}
+  .sidebar.open{max-height:220px;overflow-y:auto}
+  .sidebar-toggle{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;font-size:13px;color:var(--mu);flex-shrink:0;white-space:nowrap;width:100%;background:var(--surf);border:none;font-family:'DM Sans',sans-serif}
+  .sidebar-toggle .arrow{transition:transform .2s;font-size:11px}
+  .sidebar.open .arrow{transform:rotate(180deg)}
+  .sidebar-list{flex:1;overflow-y:auto;padding:4px}
+  .main{padding:16px 16px 48px}
+  .vti{font-size:32px!important}
+  .ven2{font-size:15px}
+  .cg,.pg{grid-template-columns:1fr}
+  .qo{grid-template-columns:1fr}
+  .pp-cards{grid-template-columns:1fr 1fr}
+  .nav{flex-wrap:wrap}
+  .nc{order:3;flex:1 1 100%;text-align:center}
+}
+</style>
+</head>
+<body>
+<div style="display:flex;flex-direction:column;height:100vh;overflow:hidden">
+
+<div class="top">
+  <div class="logo" onclick="goHome()">verbi <span>italiani</span></div>
+  <div class="sw"><span class="si">⌕</span><input type="text" id="sin" placeholder="cerca un verbo…" oninput="applyF()"></div>
+  <div class="fbs">
+    <button class="fb" id="f-are" onclick="tog('are')">-are</button>
+    <button class="fb" id="f-ere" onclick="tog('ere')">-ere</button>
+    <button class="fb" id="f-ire" onclick="tog('ire')">-ire</button>
+    <button class="fb" id="f-irr" onclick="tog('irr')">irreg</button>
+    <button class="fb" id="f-quiz" onclick="togQ()">Quiz ✦</button>
+  </div>
+  <div class="st" id="stEl">100 verbs</div>
+</div>
+
+<div class="body">
+  <div class="sidebar" id="sb">
+    <button class="sidebar-toggle" onclick="toggleSidebar()" id="sbt">
+      <span id="sbt-label">verbi — amare</span>
+      <span class="arrow">▼</span>
+    </button>
+    <div class="sidebar-list" id="sbl"></div>
+  </div>
+  <div class="main" id="mp"><div class="empty"><div class="ebig">V</div><p>Select a verb to begin</p></div></div>
+</div>
+</div>
+
+<script>
+const P=['io','tu','lui/lei','noi','voi','loro'];
+const ST=['sto','stai','sta','stiamo','state','stanno'];
+
+const V=[
+{e:"❤️",it:"amare",en:"to love",g:"-are",i:false,
+pr:["amo","ami","ama","amiamo","amate","amano"],
+im:["amavo","amavi","amava","amavamo","amavate","amavano"],
+pp:"amato",ax:"avere",
+ex:{pr:[["Amo la musica italiana.","I love Italian music."],["Ti amo con tutto il cuore.","I love you with all my heart."],["Amiamo i viaggi in estate.","We love travelling in summer."]],
+pg:[["Sto amando ogni minuto.","I am loving every minute."],["Sta amando il nuovo lavoro.","She is loving the new job."],["Stiamo amando questa città.","We are loving this city."]],
+pe:[["Ho amato ogni momento.","I have loved every moment."],["Ha amato quella persona per anni.","He loved that person for years."],["Abbiamo amato quella città.","We loved that city."]],
+ip:[["Da bambino amavo il gelato.","As a child I loved ice cream."],["Amava stare in silenzio la sera.","She used to love sitting quietly in the evening."],["Amavamo andare al cinema insieme.","We used to love going to the cinema together."]]}},
+{e:"🚶",it:"andare",en:"to go",g:"-are",i:true,
+pr:["vado","vai","va","andiamo","andate","vanno"],
+im:["andavo","andavi","andava","andavamo","andavate","andavano"],
+pp:"andato",ax:"essere",
+ex:{pr:[["Vado al lavoro in bici.","I go to work by bike."],["Vai spesso al mercato?","Do you often go to the market?"],["Vanno a scuola a piedi.","They walk to school."]],
+pg:[["Sto andando al supermercato.","I am going to the supermarket."],["Sta andando in ufficio.","He is going to the office."],["Stanno andando alla spiaggia.","They are going to the beach."]],
+pe:[["Sono andato a Roma la settimana scorsa.","I went to Rome last week."],["È andata al medico stamattina.","She went to the doctor this morning."],["Siamo andati al concerto ieri sera.","We went to the concert last night."]],
+ip:[["Andavamo al mare ogni estate.","We used to go to the sea every summer."],["Andava in palestra tre volte a settimana.","He used to go to the gym three times a week."],["Da piccola andavo a cavallo.","As a child I used to go horse riding."]]}},
+{e:"🚪",it:"aprire",en:"to open",g:"-ire",i:false,
+pr:["apro","apri","apre","apriamo","aprite","aprono"],
+im:["aprivo","aprivi","apriva","aprivamo","aprivate","aprivano"],
+pp:"aperto",ax:"avere",
+ex:{pr:[["Apro il negozio alle nove.","I open the shop at nine."],["Apri la finestra, fa caldo.","Open the window, it's hot."],["Il bar apre presto la mattina.","The bar opens early in the morning."]],
+pg:[["Sto aprendo la posta.","I am opening the mail."],["Sta aprendo un nuovo ristorante.","She is opening a new restaurant."],["Stanno aprendo le scatole.","They are opening the boxes."]],
+pe:[["Ho aperto la finestra.","I opened the window."],["Ha aperto la lettera con curiosità.","He opened the letter with curiosity."],["Abbiamo aperto una bottiglia di vino.","We opened a bottle of wine."]],
+ip:[["Apriva sempre la porta per me.","She always opened the door for me."],["Apriva il negozio anche di domenica.","He used to open the shop even on Sundays."],["Aprivamo le finestre di notte in estate.","We used to open the windows at night in summer."]]}},
+{e:"🛬",it:"arrivare",en:"to arrive",g:"-are",i:false,
+pr:["arrivo","arrivi","arriva","arriviamo","arrivate","arrivano"],
+im:["arrivavo","arrivavi","arrivava","arrivavamo","arrivavate","arrivavano"],
+pp:"arrivato",ax:"essere",
+ex:{pr:[["Arrivo sempre puntuale.","I always arrive on time."],["Il treno arriva alle tre.","The train arrives at three."],["Arrivano da tutto il mondo.","They arrive from all over the world."]],
+pg:[["Sto arrivando, aspettami!","I am arriving, wait for me!"],["Sta arrivando il temporale.","The storm is arriving."],["Stanno arrivando gli ospiti.","The guests are arriving."]],
+pe:[["È arrivato tardi ieri.","He arrived late yesterday."],["Siamo arrivati in perfetto orario.","We arrived right on time."],["Il pacco è arrivato finalmente.","The package finally arrived."]],
+ip:[["Arrivava sempre in ritardo.","He always used to arrive late."],["Arrivavamo esausti dopo il viaggio.","We always arrived exhausted after the trip."],["I turisti arrivavano ogni estate.","Tourists used to arrive every summer."]]}},
+{e:"⏳",it:"aspettare",en:"to wait",g:"-are",i:false,
+pr:["aspetto","aspetti","aspetta","aspettiamo","aspettate","aspettano"],
+im:["aspettavo","aspettavi","aspettava","aspettavamo","aspettavate","aspettavano"],
+pp:"aspettato",ax:"avere",
+ex:{pr:[["Aspetto l'autobus da dieci minuti.","I have been waiting for the bus for ten minutes."],["Aspetta fuori, arrivo subito.","Wait outside, I'll be right there."],["Aspettiamo notizie dal dottore.","We are waiting for news from the doctor."]],
+pg:[["Sto aspettando il mio turno.","I am waiting for my turn."],["Sta aspettando una risposta.","She is waiting for a reply."],["Stanno aspettando in fila.","They are waiting in line."]],
+pe:[["Ho aspettato un'ora sotto la pioggia.","I waited an hour in the rain."],["Ha aspettato tutta la mattina.","She waited all morning."],["Abbiamo aspettato invano.","We waited in vain."]],
+ip:[["Aspettava sempre con pazienza.","She always waited patiently."],["Aspettavamo il treno ogni mattina.","We used to wait for the train every morning."],["Da bambino aspettava il Natale con gioia.","As a child he used to wait for Christmas with joy."]]}},
+{e:"👜",it:"avere",en:"to have",g:"-ere",i:true,
+pr:["ho","hai","ha","abbiamo","avete","hanno"],
+im:["avevo","avevi","aveva","avevamo","avevate","avevano"],
+pp:"avuto",ax:"avere",
+ex:{pr:[["Ho due gatti e un cane.","I have two cats and a dog."],["Hai tempo per un caffè?","Do you have time for a coffee?"],["Hanno molta esperienza nel campo.","They have a lot of experience in the field."]],
+pg:[["Sto avendo qualche problema tecnico.","I am having some technical trouble."],["Sta avendo una settimana difficile.","She is having a difficult week."],["Stanno avendo un acceso dibattito.","They are having a heated debate."]],
+pe:[["Ho avuto molto lavoro questo mese.","I have had a lot of work this month."],["Ha avuto la febbre per tre giorni.","He had a fever for three days."],["Abbiamo avuto fortuna con il tempo.","We were lucky with the weather."]],
+ip:[["Aveva una bella casa in campagna.","She had a beautiful house in the countryside."],["Avevamo un vecchio cane di nome Rex.","We used to have an old dog named Rex."],["Da giovane aveva molti amici.","When he was young he had many friends."]]}},
+{e:"🥤",it:"bere",en:"to drink",g:"-ere",i:true,
+pr:["bevo","bevi","beve","beviamo","bevete","bevono"],
+im:["bevevo","bevevi","beveva","bevevamo","bevevate","bevevano"],
+pp:"bevuto",ax:"avere",
+ex:{pr:[["Bevo un caffè ogni mattina.","I drink a coffee every morning."],["Beviamo acqua minerale a tavola.","We drink mineral water at the table."],["Bevono troppa birra il venerdì sera.","They drink too much beer on Friday nights."]],
+pg:[["Sto bevendo il tè.","I am drinking tea."],["Sta bevendo l'ultimo sorso.","He is drinking the last sip."],["Stanno bevendo un aperitivo.","They are drinking an aperitif."]],
+pe:[["Ho bevuto tutta l'acqua.","I drank all the water."],["Ha bevuto tre caffè stamattina.","She drank three coffees this morning."],["Abbiamo bevuto un vino eccellente.","We drank an excellent wine."]],
+ip:[["Beveva solo acqua minerale.","He used to drink only mineral water."],["Da ragazza beveva latte caldo la sera.","As a girl she used to drink warm milk in the evening."],["Bevevamo limonata fatta in casa d'estate.","We used to drink homemade lemonade in summer."]]}},
+{e:"🎤",it:"cantare",en:"to sing",g:"-are",i:false,
+pr:["canto","canti","canta","cantiamo","cantate","cantano"],
+im:["cantavo","cantavi","cantava","cantavamo","cantavate","cantavano"],
+pp:"cantato",ax:"avere",
+ex:{pr:[["Canta sotto la doccia ogni mattina.","He sings in the shower every morning."],["Canti molto bene!","You sing very well!"],["Il coro canta ogni domenica in chiesa.","The choir sings every Sunday in church."]],
+pg:[["Sto cantando la mia canzone preferita.","I am singing my favourite song."],["Sta cantando sul palco.","She is singing on stage."],["Stanno cantando in coro.","They are singing in chorus."]],
+pe:[["Abbiamo cantato tutta la notte.","We sang all night."],["Ha cantato davanti a mille persone.","She sang in front of a thousand people."],["Ho cantato quella canzone mille volte.","I have sung that song a thousand times."]],
+ip:[["Cantava sempre canzoni popolari.","She used to sing folk songs."],["Da bambino cantavo nel coro scolastico.","As a child I used to sing in the school choir."],["Cantavano insieme ogni sera dopo cena.","They used to sing together every evening after dinner."]]}},
+{e:"🔍",it:"cercare",en:"to look for",g:"-are",i:false,
+pr:["cerco","cerchi","cerca","cerchiamo","cercate","cercano"],
+im:["cercavo","cercavi","cercava","cercavamo","cercavate","cercavano"],
+pp:"cercato",ax:"avere",
+ex:{pr:[["Cerco le mie chiavi.","I am looking for my keys."],["Cerchi qualcosa di speciale?","Are you looking for something special?"],["Cercano un appartamento in centro.","They are looking for a flat in the centre."]],
+pg:[["Sto cercando un lavoro nuovo.","I am looking for a new job."],["Sta cercando le sue cose.","She is looking for her things."],["Stanno cercando una soluzione.","They are looking for a solution."]],
+pe:[["Ho cercato ovunque.","I have looked everywhere."],["Ha cercato il suo telefono per ore.","She looked for her phone for hours."],["Abbiamo cercato un ristorante aperto.","We looked for an open restaurant."]],
+ip:[["Cercava sempre scuse.","He was always looking for excuses."],["Cercavo un senso in tutto quello che facevo.","I used to look for meaning in everything I did."],["Cercavano sempre il lato positivo.","They always used to look on the bright side."]]}},
+{e:"📞",it:"chiamare",en:"to call",g:"-are",i:false,
+pr:["chiamo","chiami","chiama","chiamiamo","chiamate","chiamano"],
+im:["chiamavo","chiamavi","chiamava","chiamavamo","chiamavate","chiamavano"],
+pp:"chiamato",ax:"avere",
+ex:{pr:[["Chiamo mia madre ogni domenica.","I call my mother every Sunday."],["Chi chiami adesso?","Who are you calling now?"],["Chiamano sempre quando sei occupato.","They always call when you're busy."]],
+pg:[["Sto chiamando il medico.","I am calling the doctor."],["Sta chiamando un taxi.","She is calling a taxi."],["Stanno chiamando i soccorsi.","They are calling for help."]],
+pe:[["L'ho chiamata stamattina.","I called her this morning."],["Ha chiamato tre volte senza risposta.","He called three times without an answer."],["Abbiamo chiamato tutti gli amici.","We called all our friends."]],
+ip:[["Mi chiamava sempre di sera.","He used to call me every evening."],["Chiamavo casa ogni settimana.","I used to call home every week."],["Chiamavano i nonni ogni domenica.","They used to call their grandparents every Sunday."]]}},
+{e:"🔒",it:"chiudere",en:"to close",g:"-ere",i:false,
+pr:["chiudo","chiudi","chiude","chiudiamo","chiudete","chiudono"],
+im:["chiudevo","chiudevi","chiudeva","chiudevamo","chiudevate","chiudevano"],
+pp:"chiuso",ax:"avere",
+ex:{pr:[["Chiudo il negozio alle sette.","I close the shop at seven."],["Chiudi la porta quando esci.","Close the door when you leave."],["I negozi chiudono alle venti.","The shops close at eight."]],
+pg:[["Sto chiudendo la valigia.","I am closing the suitcase."],["Sta chiudendo il conto in banca.","She is closing her bank account."],["Stanno chiudendo il locale per ristrutturazione.","They are closing the venue for renovation."]],
+pe:[["Ho chiuso tutte le finestre.","I closed all the windows."],["Ha chiuso la porta a chiave.","She locked the door."],["Abbiamo chiuso il contratto ieri.","We closed the contract yesterday."]],
+ip:[["Chiudeva sempre a chiave anche di giorno.","She always used to lock up even during the day."],["Chiudevo gli occhi quando avevo paura.","I used to close my eyes when I was scared."],["Chiudevano il bar la domenica.","They used to close the bar on Sundays."]]}},
+{e:"🧠",it:"conoscere",en:"to know (person)",g:"-ere",i:false,
+pr:["conosco","conosci","conosce","conosciamo","conoscete","conoscono"],
+im:["conoscevo","conoscevi","conosceva","conoscevamo","conoscevate","conoscevano"],
+pp:"conosciuto",ax:"avere",
+ex:{pr:[["Conosco bene quella città.","I know that city well."],["Conosci qualcuno qui?","Do you know anyone here?"],["Conoscono tutti nel quartiere.","They know everyone in the neighbourhood."]],
+pg:[["Sto conoscendo persone nuove.","I am meeting new people."],["Sta conoscendo i colleghi.","She is getting to know her colleagues."],["Stanno conoscendo la cultura locale.","They are getting to know the local culture."]],
+pe:[["L'ho conosciuto a Firenze.","I met him in Florence."],["Ha conosciuto suo marito al lavoro.","She met her husband at work."],["Abbiamo conosciuto gente interessante.","We met interesting people."]],
+ip:[["Conosceva tutti nel paese.","She used to know everyone in the village."],["Conoscevo quella strada a memoria.","I used to know that road by heart."],["Conoscevano ogni angolo della città.","They used to know every corner of the city."]]}},
+{e:"🙏",it:"credere",en:"to believe",g:"-ere",i:false,
+pr:["credo","credi","crede","crediamo","credete","credono"],
+im:["credevo","credevi","credeva","credevamo","credevate","credevano"],
+pp:"creduto",ax:"avere",
+ex:{pr:[["Credo in te.","I believe in you."],["Credi a quello che dice?","Do you believe what he says?"],["Credono nella forza del dialogo.","They believe in the power of dialogue."]],
+pg:[["Sto credendo sempre di più a questa idea.","I am believing in this idea more and more."],["Sta credendo nella sua guarigione.","She is believing in her recovery."],["Stanno credendo in un futuro migliore.","They are believing in a better future."]],
+pe:[["Ho creduto a tutto.","I believed everything."],["Ha creduto alle sue parole.","She believed his words."],["Abbiamo creduto in lui fin dall'inizio.","We believed in him from the start."]],
+ip:[["Credeva ciecamente in lui.","He used to believe in him blindly."],["Credevo di aver capito tutto.","I used to think I had understood everything."],["Credevano in valori solidi.","They used to believe in solid values."]]}},
+{e:"🍳",it:"cucinare",en:"to cook",g:"-are",i:false,
+pr:["cucino","cucini","cucina","cuciniamo","cucinate","cucinano"],
+im:["cucinavo","cucinavi","cucinava","cucinavamo","cucinavate","cucinavano"],
+pp:"cucinato",ax:"avere",
+ex:{pr:[["Cucino la pasta ogni sera.","I cook pasta every evening."],["Cucini bene?","Can you cook well?"],["Cucinano piatti regionali ogni domenica.","They cook regional dishes every Sunday."]],
+pg:[["Sto cucinando per gli ospiti.","I am cooking for the guests."],["Sta cucinando qualcosa di buono.","She is cooking something good."],["Stanno cucinando insieme.","They are cooking together."]],
+pe:[["Ho cucinato per dieci persone.","I cooked for ten people."],["Ha cucinato tutta la mattina.","She cooked all morning."],["Abbiamo cucinato una cena fantastica.","We cooked a fantastic dinner."]],
+ip:[["Cucinava sempre con erbe fresche.","She always cooked with fresh herbs."],["Cucinavo il pane ogni domenica.","I used to make bread every Sunday."],["Cucinavano insieme ogni sera.","They used to cook together every evening."]]}},
+{e:"🎁",it:"dare",en:"to give",g:"-are",i:true,
+pr:["do","dai","dà","diamo","date","danno"],
+im:["davo","davi","dava","davamo","davate","davano"],
+pp:"dato",ax:"avere",
+ex:{pr:[["Do un regalo a mio fratello.","I give a gift to my brother."],["Dai sempre tutto agli altri.","You always give everything to others."],["Danno sempre il massimo.","They always give their best."]],
+pg:[["Sto dando il via al progetto.","I am launching the project."],["Sta dando un esame.","She is taking an exam."],["Stanno dando una mano.","They are lending a hand."]],
+pe:[["Gli ho dato i soldi.","I gave him the money."],["Ha dato tutto per questa causa.","She gave everything for this cause."],["Abbiamo dato il benvenuto ai nuovi arrivati.","We welcomed the newcomers."]],
+ip:[["Dava sempre consigli utili.","He always used to give useful advice."],["Davo sempre una mano ai vicini.","I always used to help my neighbours."],["Davano feste meravigliose.","They used to throw wonderful parties."]]}},
+{e:"🤔",it:"decidere",en:"to decide",g:"-ere",i:false,
+pr:["decido","decidi","decide","decidiamo","decidete","decidono"],
+im:["decidevo","decidevi","decideva","decidevamo","decidevate","decidevano"],
+pp:"deciso",ax:"avere",
+ex:{pr:[["Decido io stavolta.","I decide this time."],["Quando decidi cosa fare?","When do you decide what to do?"],["Decidono sempre all'ultimo momento.","They always decide at the last minute."]],
+pg:[["Sto decidendo cosa fare.","I am deciding what to do."],["Sta decidendo il menù.","She is deciding the menu."],["Stanno decidendo insieme.","They are deciding together."]],
+pe:[["Abbiamo deciso di partire.","We decided to leave."],["Ha deciso di cambiare vita.","She decided to change her life."],["Ho deciso dopo una lunga riflessione.","I decided after a long reflection."]],
+ip:[["Non decideva mai da solo.","He never used to decide alone."],["Decidevo sempre in base all'istinto.","I always used to decide based on instinct."],["Decidevano tutto in famiglia.","They used to decide everything as a family."]]}},
+{e:"💬",it:"dire",en:"to say",g:"-ire",i:true,
+pr:["dico","dici","dice","diciamo","dite","dicono"],
+im:["dicevo","dicevi","diceva","dicevamo","dicevate","dicevano"],
+pp:"detto",ax:"avere",
+ex:{pr:[["Dice sempre la verità.","He always tells the truth."],["Cosa dici? Non ti sento.","What are you saying? I can't hear you."],["Diciamo sempre quello che pensiamo.","We always say what we think."]],
+pg:[["Sto dicendo la verità.","I am telling the truth."],["Cosa stai dicendo?","What are you saying?"],["Stanno dicendo cose importanti.","They are saying important things."]],
+pe:[["Ho detto tutto quello che sapevo.","I said everything I knew."],["Ha detto una bugia.","She told a lie."],["Abbiamo detto addio alla vecchia casa.","We said goodbye to the old house."]],
+ip:[["Diceva sempre bugie da bambino.","He used to tell lies as a child."],["Diceva sempre ciò che pensava.","She always used to say what she thought."],["Dicevano che sarebbe stato bello.","They used to say it would be beautiful."]]}},
+{e:"⚠️",it:"dovere",en:"must / have to",g:"-ere",i:true,
+pr:["devo","devi","deve","dobbiamo","dovete","devono"],
+im:["dovevo","dovevi","doveva","dovevamo","dovevate","dovevano"],
+pp:"dovuto",ax:"avere",
+ex:{pr:[["Devo studiare stasera.","I have to study tonight."],["Devi chiamare il medico subito.","You must call the doctor right away."],["Devono partire all'alba.","They have to leave at dawn."]],
+pg:[["Sto dovendo rifare tutto.","I am having to redo everything."],["Sta dovendo lavorare nel weekend.","She is having to work over the weekend."],["Stanno dovendo cambiare i piani.","They are having to change their plans."]],
+pe:[["Ho dovuto lavorare fino a tardi.","I had to work until late."],["Ha dovuto vendere la casa.","She had to sell the house."],["Abbiamo dovuto annullare la vacanza.","We had to cancel the holiday."]],
+ip:[["Doveva sempre badare ai fratelli.","She always had to look after her siblings."],["Dovevo alzarmi alle cinque ogni mattina.","I had to get up at five every morning."],["Dovevano rispettare regole rigide.","They had to follow strict rules."]]}},
+{e:"😴",it:"dormire",en:"to sleep",g:"-ire",i:false,
+pr:["dormo","dormi","dorme","dormiamo","dormite","dormono"],
+im:["dormivo","dormivi","dormiva","dormivamo","dormivate","dormivano"],
+pp:"dormito",ax:"avere",
+ex:{pr:[["Dormo otto ore ogni notte.","I sleep eight hours every night."],["Dormi abbastanza?","Do you sleep enough?"],["I bambini dormono già.","The children are already asleep."]],
+pg:[["Sto dormendo sul divano.","I am sleeping on the sofa."],["Stai dormendo? Svegliati!","Are you sleeping? Wake up!"],["Il gatto sta dormendo al sole.","The cat is sleeping in the sun."]],
+pe:[["Ho dormito malissimo stanotte.","I slept very badly last night."],["Ha dormito dodici ore di fila.","She slept twelve hours straight."],["Abbiamo dormito sotto le stelle.","We slept under the stars."]],
+ip:[["Dormiva sempre fino a mezzogiorno.","He used to sleep until midday."],["Da ragazza dormivo pochissimo.","As a girl I used to sleep very little."],["Dormivano in tenda in montagna.","They used to sleep in a tent in the mountains."]]}},
+{e:"🌟",it:"essere",en:"to be",g:"-ere",i:true,
+pr:["sono","sei","è","siamo","siete","sono"],
+im:["ero","eri","era","eravamo","eravate","erano"],
+pp:"stato",ax:"essere",
+ex:{pr:[["Sono molto stanco oggi.","I am very tired today."],["Sei sicuro di quello che dici?","Are you sure about what you're saying?"],["Siamo pronti a partire.","We are ready to leave."]],
+pg:[["Sto essendo molto paziente.","I am being very patient."],["Sta essendo difficile da capire.","It is being hard to understand."],["Stanno essendo onesti con noi.","They are being honest with us."]],
+pe:[["Sono stato a Venezia due volte.","I have been to Venice twice."],["È stata una giornata indimenticabile.","It was an unforgettable day."],["Siamo stati fortunati con il tempo.","We were lucky with the weather."]],
+ip:[["Era sempre gentile con tutti.","She was always kind to everyone."],["Ero molto timido da bambino.","I used to be very shy as a child."],["Erano i tempi più belli della nostra vita.","Those were the best times of our life."]]}},
+{e:"🛠️",it:"fare",en:"to do / make",g:"-are",i:true,
+pr:["faccio","fai","fa","facciamo","fate","fanno"],
+im:["facevo","facevi","faceva","facevamo","facevate","facevano"],
+pp:"fatto",ax:"avere",
+ex:{pr:[["Faccio colazione alle sette.","I have breakfast at seven."],["Cosa fai nel tempo libero?","What do you do in your free time?"],["Fanno molto sport i weekend.","They do a lot of sport at weekends."]],
+pg:[["Sto facendo la spesa.","I am doing the shopping."],["Sta facendo i compiti.","He is doing his homework."],["Stanno facendo una passeggiata.","They are going for a walk."]],
+pe:[["Ho fatto una lunga passeggiata.","I took a long walk."],["Ha fatto tutto da solo.","He did everything by himself."],["Abbiamo fatto un errore.","We made a mistake."]],
+ip:[["Faceva sempre i compiti da solo.","He always did his homework alone."],["Facevo il pane ogni domenica.","I used to make bread every Sunday."],["Facevamo lunghe passeggiate in montagna.","We used to take long walks in the mountains."]]}},
+{e:"🏁",it:"finire",en:"to finish",g:"-ire",i:false,
+pr:["finisco","finisci","finisce","finiamo","finite","finiscono"],
+im:["finivo","finivi","finiva","finivamo","finivate","finivano"],
+pp:"finito",ax:"avere",
+ex:{pr:[["Finisco il lavoro alle sei.","I finish work at six."],["Quando finisci il libro?","When do you finish the book?"],["Il film finisce a mezzanotte.","The film finishes at midnight."]],
+pg:[["Sto finendo il progetto.","I am finishing the project."],["Sta finendo le ultime pagine.","She is finishing the last pages."],["Stanno finendo i preparativi.","They are finishing the preparations."]],
+pe:[["Ho finito il libro ieri sera.","I finished the book last night."],["Ha finito l'università con ottimi voti.","She finished university with excellent grades."],["Abbiamo finito tutto il vino.","We finished all the wine."]],
+ip:[["Finiva sempre in anticipo.","He always used to finish early."],["Da bambina finivo sempre i compiti subito.","As a child I always finished homework right away."],["Finivano le riunioni a orari impossibili.","Meetings used to finish at impossible hours."]]}},
+{e:"⚽",it:"giocare",en:"to play",g:"-are",i:false,
+pr:["gioco","giochi","gioca","giochiamo","giocate","giocano"],
+im:["giocavo","giocavi","giocava","giocavamo","giocavate","giocavano"],
+pp:"giocato",ax:"avere",
+ex:{pr:[["Gioco a calcio ogni sabato.","I play football every Saturday."],["Giochi bene a scacchi?","Do you play chess well?"],["Giocano a tennis nel tempo libero.","They play tennis in their free time."]],
+pg:[["Sto giocando con i bambini.","I am playing with the children."],["Sta giocando a carte.","She is playing cards."],["Stanno giocando in giardino.","They are playing in the garden."]],
+pe:[["Abbiamo giocato per tre ore.","We played for three hours."],["Ha giocato la sua ultima partita.","He played his last match."],["Ho giocato a calcio fino a trent'anni.","I played football until I was thirty."]],
+ip:[["Giocava sempre con i cani.","She used to play with the dogs."],["Da bambino giocavo fuori tutto il giorno.","As a child I used to play outside all day."],["Giocavamo insieme ogni pomeriggio.","We used to play together every afternoon."]]}},
+{e:"👀",it:"guardare",en:"to watch",g:"-are",i:false,
+pr:["guardo","guardi","guarda","guardiamo","guardate","guardano"],
+im:["guardavo","guardavi","guardava","guardavamo","guardavate","guardavano"],
+pp:"guardato",ax:"avere",
+ex:{pr:[["Guardo un film ogni venerdì.","I watch a film every Friday."],["Guardi spesso la televisione?","Do you often watch television?"],["Guardano sempre le notizie la mattina.","They always watch the news in the morning."]],
+pg:[["Sto guardando una serie fantastica.","I am watching a fantastic series."],["Sta guardando le stelle.","She is watching the stars."],["Stanno guardando la partita.","They are watching the match."]],
+pe:[["Ho guardato tutta la serie in un weekend.","I watched the whole series in a weekend."],["Ha guardato il tramonto in silenzio.","She watched the sunset in silence."],["Abbiamo guardato le foto di viaggio insieme.","We looked at the travel photos together."]],
+ip:[["Guardava la televisione tutto il giorno.","He used to watch TV all day."],["Guardavo il mare per ore.","I used to watch the sea for hours."],["Guardavano le stelle la notte in campagna.","They used to watch the stars at night in the countryside."]]}},
+{e:"📚",it:"imparare",en:"to learn",g:"-are",i:false,
+pr:["imparo","impari","impara","impariamo","imparate","imparano"],
+im:["imparavo","imparavi","imparava","imparavamo","imparavate","imparavano"],
+pp:"imparato",ax:"avere",
+ex:{pr:[["Imparo qualcosa di nuovo ogni giorno.","I learn something new every day."],["Impari molto velocemente.","You learn very quickly."],["I bambini imparano per imitazione.","Children learn through imitation."]],
+pg:[["Sto imparando a suonare la chitarra.","I am learning to play guitar."],["Sta imparando il giapponese.","She is learning Japanese."],["Stiamo imparando a cucinare.","We are learning to cook."]],
+pe:[["Ho imparato a nuotare da adulto.","I learned to swim as an adult."],["Ha imparato tre lingue in due anni.","She learned three languages in two years."],["Abbiamo imparato molto da quell'esperienza.","We learned a lot from that experience."]],
+ip:[["Imparava molto velocemente.","She used to learn very quickly."],["Da bambino imparavo le poesie a memoria.","As a child I used to learn poems by heart."],["Imparavamo insieme ogni pomeriggio.","We used to learn together every afternoon."]]}},
+{e:"💼",it:"lavorare",en:"to work",g:"-are",i:false,
+pr:["lavoro","lavori","lavora","lavoriamo","lavorate","lavorano"],
+im:["lavoravo","lavoravi","lavorava","lavoravamo","lavoravate","lavoravano"],
+pp:"lavorato",ax:"avere",
+ex:{pr:[["Lavoro da casa tre giorni a settimana.","I work from home three days a week."],["Lavori troppo, dovresti riposare.","You work too much, you should rest."],["Lavorano in una piccola impresa familiare.","They work in a small family business."]],
+pg:[["Sto lavorando a un nuovo progetto.","I am working on a new project."],["Sta lavorando tutto il giorno senza pausa.","He is working all day without a break."],["Stiamo lavorando insieme per trovare una soluzione.","We are working together to find a solution."]],
+pe:[["Ho lavorato tutto il giorno.","I worked all day."],["Ha lavorato in quell'azienda per vent'anni.","She worked at that company for twenty years."],["Abbiamo lavorato duramente per questo risultato.","We worked hard for this result."]],
+ip:[["Lavorava dodici ore al giorno.","She used to work twelve hours a day."],["Lavoravo in un negozio di musica.","I used to work in a music shop."],["Lavoravano anche i weekend.","They used to work weekends too."]]}},
+{e:"👋",it:"lasciare",en:"to leave / let",g:"-are",i:false,
+pr:["lascio","lasci","lascia","lasciamo","lasciate","lasciano"],
+im:["lasciavo","lasciavi","lasciava","lasciavamo","lasciavate","lasciavano"],
+pp:"lasciato",ax:"avere",
+ex:{pr:[["Lascio sempre le chiavi sul tavolo.","I always leave the keys on the table."],["Lascia stare, non importa.","Leave it, it doesn't matter."],["Lasciano sempre tutto in disordine.","They always leave everything in a mess."]],
+pg:[["Sto lasciando il lavoro.","I am leaving my job."],["Sta lasciando la città.","She is leaving the city."],["Stanno lasciando andare il passato.","They are letting go of the past."]],
+pe:[["Ha lasciato il lavoro all'improvviso.","She left her job suddenly."],["Ho lasciato le chiavi in macchina.","I left the keys in the car."],["Abbiamo lasciato un messaggio.","We left a message."]],
+ip:[["Lasciava sempre tutto in disordine.","He always used to leave everything in a mess."],["Lasciavo sempre un biglietto quando uscivo.","I always used to leave a note when I went out."],["Lasciavano la porta aperta.","They used to leave the door open."]]}},
+{e:"📖",it:"leggere",en:"to read",g:"-ere",i:false,
+pr:["leggo","leggi","legge","leggiamo","leggete","leggono"],
+im:["leggevo","leggevi","leggeva","leggevamo","leggevate","leggevano"],
+pp:"letto",ax:"avere",
+ex:{pr:[["Leggo un libro alla settimana.","I read a book a week."],["Leggi spesso il giornale?","Do you often read the newspaper?"],["Leggono moltissimo entrambi.","They both read a great deal."]],
+pg:[["Sto leggendo un romanzo bellissimo.","I am reading a wonderful novel."],["Sta leggendo le istruzioni.","She is reading the instructions."],["Stanno leggendo i menu.","They are reading the menus."]],
+pe:[["Ho letto tutto il libro in un giorno.","I read the whole book in one day."],["Ha letto centinaia di romanzi.","She has read hundreds of novels."],["Abbiamo letto la stessa poesia ad alta voce.","We read the same poem aloud."]],
+ip:[["Leggeva ogni sera prima di dormire.","She used to read every evening before sleeping."],["Da piccolo leggevo fumetti tutto il giorno.","As a child I used to read comics all day."],["Leggevamo ad alta voce dopo cena.","We used to read aloud after dinner."]]}},
+{e:"🍝",it:"mangiare",en:"to eat",g:"-are",i:false,
+pr:["mangio","mangi","mangia","mangiamo","mangiate","mangiano"],
+im:["mangiavo","mangiavi","mangiava","mangiavamo","mangiavate","mangiavano"],
+pp:"mangiato",ax:"avere",
+ex:{pr:[["Mangio molta verdura fresca.","I eat a lot of fresh vegetables."],["Mangi carne o sei vegetariano?","Do you eat meat or are you vegetarian?"],["Mangiano fuori ogni venerdì sera.","They eat out every Friday evening."]],
+pg:[["Sto mangiando la pasta.","I am eating pasta."],["Sta mangiando troppo in fretta.","She is eating too fast."],["Stanno mangiando un gelato enorme.","They are eating a huge ice cream."]],
+pe:[["Ho mangiato troppo ieri sera.","I ate too much last night."],["Ha mangiato per la prima volta sushi.","She ate sushi for the first time."],["Abbiamo mangiato in un ristorante fantastico.","We ate at a fantastic restaurant."]],
+ip:[["Mangiava sempre in fretta.","He always used to eat quickly."],["Da bambina mangiavo solo pasta al burro.","As a child I used to eat only pasta with butter."],["Mangiavamo sempre insieme la domenica.","We always used to eat together on Sundays."]]}},
+{e:"📦",it:"mettere",en:"to put",g:"-ere",i:false,
+pr:["metto","metti","mette","mettiamo","mettete","mettono"],
+im:["mettevo","mettevi","metteva","mettevamo","mettevate","mettevano"],
+pp:"messo",ax:"avere",
+ex:{pr:[["Metto i libri nello zaino.","I put the books in my bag."],["Dove metti le chiavi di solito?","Where do you usually put the keys?"],["Mettono sempre troppo sale.","They always put in too much salt."]],
+pg:[["Sto mettendo tutto in ordine.","I am putting everything in order."],["Sta mettendo via i vestiti.","She is putting away the clothes."],["Stanno mettendo le valigie in macchina.","They are putting the suitcases in the car."]],
+pe:[["Ho messo tutto in ordine.","I put everything in order."],["Ha messo la firma sul contratto.","She signed the contract."],["Abbiamo messo da parte dei soldi.","We put some money aside."]],
+ip:[["Metteva sempre troppo sale nel sugo.","She always used to add too much salt to the sauce."],["Mettevo la sveglia ogni sera.","I used to set the alarm every evening."],["Mettevano i bambini a letto presto.","They used to put the children to bed early."]]}},
+{e:"🗣️",it:"parlare",en:"to speak",g:"-are",i:false,
+pr:["parlo","parli","parla","parliamo","parlate","parlano"],
+im:["parlavo","parlavi","parlava","parlavamo","parlavate","parlavano"],
+pp:"parlato",ax:"avere",
+ex:{pr:[["Parlo italiano e spagnolo.","I speak Italian and Spanish."],["Parli molto bene l'italiano!","You speak Italian very well!"],["Parlano troppo e agiscono poco.","They talk too much and act too little."]],
+pg:[["Sto parlando con il direttore.","I am speaking with the director."],["Sta parlando al telefono.","She is talking on the phone."],["Stanno parlando di te.","They are talking about you."]],
+pe:[["Abbiamo parlato per ore al telefono.","We talked on the phone for hours."],["Ha parlato davanti a tutta la classe.","She spoke in front of the whole class."],["Ho parlato con lui ieri sera.","I spoke with him last night."]],
+ip:[["Parlava sempre troppo.","He always used to talk too much."],["Da bambina parlavo poco.","As a child I used to speak very little."],["Parlavano in dialetto tra di loro.","They used to speak in dialect among themselves."]]}},
+{e:"💡",it:"pensare",en:"to think",g:"-are",i:false,
+pr:["penso","pensi","pensa","pensiamo","pensate","pensano"],
+im:["pensavo","pensavi","pensava","pensavamo","pensavate","pensavano"],
+pp:"pensato",ax:"avere",
+ex:{pr:[["Penso che tu abbia ragione.","I think you are right."],["A cosa pensi?","What are you thinking about?"],["Pensano di partire domani.","They are thinking of leaving tomorrow."]],
+pg:[["Sto pensando a una soluzione.","I am thinking of a solution."],["Sta pensando prima di rispondere.","He is thinking before answering."],["Stiamo pensando di trasferirci.","We are thinking of moving."]],
+pe:[["Ho pensato molto alla tua proposta.","I have thought a lot about your proposal."],["Ha pensato a lungo prima di decidere.","She thought for a long time before deciding."],["Abbiamo pensato insieme al problema.","We thought about the problem together."]],
+ip:[["Pensava sempre agli altri prima di sé.","She always used to think of others before herself."],["Da giovane pensavo di diventare attore.","As a young man I used to think I would become an actor."],["Pensavamo che fosse impossibile.","We used to think it was impossible."]]}},
+{e:"😢",it:"perdere",en:"to lose",g:"-ere",i:false,
+pr:["perdo","perdi","perde","perdiamo","perdete","perdono"],
+im:["perdevo","perdevi","perdeva","perdevamo","perdevate","perdevano"],
+pp:"perso",ax:"avere",
+ex:{pr:[["Perdo sempre le chiavi.","I always lose my keys."],["Perdi spesso la pazienza?","Do you often lose your patience?"],["Perdono tempo invece di lavorare.","They waste time instead of working."]],
+pg:[["Sto perdendo la speranza.","I am losing hope."],["Sta perdendo il treno.","She is missing the train."],["Stanno perdendo la partita.","They are losing the match."]],
+pe:[["Ho perso il treno delle otto.","I missed the eight o'clock train."],["Ha perso il portafoglio sul bus.","She lost her wallet on the bus."],["Abbiamo perso la strada nel bosco.","We lost our way in the woods."]],
+ip:[["Perdeva sempre al gioco.","He always used to lose at cards."],["Perdevo spesso le cose da bambino.","I used to lose things often as a child."],["Perdevano tempo a discutere di niente.","They used to waste time arguing about nothing."]]}},
+{e:"😊",it:"piacere",en:"to like",g:"-ere",i:true,
+pr:["piaccio","piaci","piace","piacciamo","piacete","piacciono"],
+im:["piacevo","piacevi","piaceva","piacevamo","piacevate","piacevano"],
+pp:"piaciuto",ax:"essere",
+ex:{pr:[["Mi piace moltissimo la pizza napoletana.","I really like Neapolitan pizza."],["Ti piace la musica classica?","Do you like classical music?"],["Gli piacciono i gatti più dei cani.","He likes cats more than dogs."]],
+pg:[["Mi sta piacendo tantissimo questo film.","I am really enjoying this film."],["Ti sta piacendo il viaggio?","Are you enjoying the trip?"],["Gli sta piacendo la nuova città.","He is enjoying the new city."]],
+pe:[["Mi è piaciuto molto il film.","I really liked the film."],["Le è piaciuta la torta.","She liked the cake."],["Ci è piaciuto tantissimo quel ristorante.","We really liked that restaurant."]],
+ip:[["Gli piaceva molto la musica classica.","He used to really like classical music."],["Da bambina mi piacevano i cartoni animati.","As a child I used to like cartoons."],["Ci piaceva passeggiare la domenica mattina.","We used to like walking on Sunday mornings."]]}},
+{e:"🎒",it:"portare",en:"to bring / carry",g:"-are",i:false,
+pr:["porto","porti","porta","portiamo","portate","portano"],
+im:["portavo","portavi","portava","portavamo","portavate","portavano"],
+pp:"portato",ax:"avere",
+ex:{pr:[["Porto sempre l'ombrello.","I always bring an umbrella."],["Porti tu il dolce?","Will you bring the dessert?"],["Portano sempre regali quando vengono a cena.","They always bring gifts when they come to dinner."]],
+pg:[["Sto portando le borse al piano di sopra.","I am carrying the bags upstairs."],["Sta portando i bambini a scuola.","She is taking the children to school."],["Stanno portando i mobili nel nuovo appartamento.","They are carrying furniture into the new flat."]],
+pe:[["Ho portato il vino.","I brought the wine."],["Ha portato i fiori alla nonna.","He brought flowers to grandma."],["Abbiamo portato tutto il necessario.","We brought everything we needed."]],
+ip:[["Portava sempre fiori alla nonna.","He used to always bring flowers to grandma."],["Portavo lo zaino pesantissimo a scuola.","I used to carry a very heavy backpack to school."],["Portavano i bambini al parco ogni domenica.","They used to take the children to the park every Sunday."]]}},
+{e:"💪",it:"potere",en:"can / to be able to",g:"-ere",i:true,
+pr:["posso","puoi","può","possiamo","potete","possono"],
+im:["potevo","potevi","poteva","potevamo","potevate","potevano"],
+pp:"potuto",ax:"avere",
+ex:{pr:[["Posso aiutarti con piacere.","I can help you with pleasure."],["Puoi aprire la finestra?","Can you open the window?"],["Non possono venire stasera.","They can't come tonight."]],
+pg:[["Sto potendo finalmente riposare.","I am finally getting to rest."],["Sta potendo uscire di più adesso.","She is now able to go out more."],["Stanno potendo lavorare da casa.","They are now able to work from home."]],
+pe:[["Non ho potuto venire alla festa.","I was not able to come to the party."],["Ha potuto finalmente comprare casa.","He was finally able to buy a house."],["Abbiamo potuto visitare il museo.","We were able to visit the museum."]],
+ip:[["Non poteva dormire bene per l'ansia.","He could not sleep well because of anxiety."],["Non potevo uscire da sola da bambina.","I was not allowed to go out alone as a child."],["Potevano lavorare senza interruzioni.","They used to be able to work without interruptions."]]}},
+{e:"✋",it:"prendere",en:"to take",g:"-ere",i:false,
+pr:["prendo","prendi","prende","prendiamo","prendete","prendono"],
+im:["prendevo","prendevi","prendeva","prendevamo","prendevate","prendevano"],
+pp:"preso",ax:"avere",
+ex:{pr:[["Prendo il treno ogni giorno.","I take the train every day."],["Prendi un caffè?","Will you have a coffee?"],["Prendono sempre la stessa strada.","They always take the same road."]],
+pg:[["Sto prendendo il sole.","I am sunbathing."],["Sta prendendo appunti.","She is taking notes."],["Stanno prendendo una decisione.","They are making a decision."]],
+pe:[["Ho preso un caffè al bar.","I had a coffee at the bar."],["Ha preso il primo aereo disponibile.","He took the first available flight."],["Abbiamo preso la decisione giusta.","We made the right decision."]],
+ip:[["Prendeva medicine ogni mattina.","She used to take medicine every morning."],["Prendevo sempre il treno delle sette.","I always used to take the seven o'clock train."],["Prendevano lezioni di musica insieme.","They used to take music lessons together."]]}},
+{e:"🧪",it:"provare",en:"to try",g:"-are",i:false,
+pr:["provo","provi","prova","proviamo","provate","provano"],
+im:["provavo","provavi","provava","provavamo","provavate","provavano"],
+pp:"provato",ax:"avere",
+ex:{pr:[["Provo sempre nuove ricette.","I always try new recipes."],["Hai provato il tiramisù di questo posto?","Have you tried the tiramisu here?"],["Provano sempre cose nuove.","They always try new things."]],
+pg:[["Sto provando a capire.","I am trying to understand."],["Sta provando un vestito nuovo.","She is trying on a new dress."],["Stanno provando la canzone per il concerto.","They are rehearsing the song for the concert."]],
+pe:[["Ho provato di tutto.","I have tried everything."],["Ha provato a telefonare ma non rispondevi.","She tried to call but you didn't answer."],["Abbiamo provato il ristorante nuovo.","We tried the new restaurant."]],
+ip:[["Provava sempre cose nuove.","She always used to try new things."],["Provavo a imparare la chitarra da solo.","I used to try to learn guitar on my own."],["Provavano ogni giorno senza arrendersi.","They used to try every day without giving up."]]}},
+{e:"🏠",it:"restare",en:"to stay",g:"-are",i:false,
+pr:["resto","resti","resta","restiamo","restate","restano"],
+im:["restavo","restavi","restava","restavamo","restavate","restavano"],
+pp:"restato",ax:"essere",
+ex:{pr:[["Resto a casa questo weekend.","I am staying home this weekend."],["Resti a cena con noi?","Are you staying for dinner with us?"],["Restano spesso fino a tardi in ufficio.","They often stay late at the office."]],
+pg:[["Sto restando qualche giorno in più.","I am staying a few extra days."],["Sta restando tranquillo nonostante tutto.","He is staying calm despite everything."],["Stanno restando a guardare.","They are staying to watch."]],
+pe:[["Siamo restati tre giorni in più.","We stayed three days longer."],["È restata a casa con i bambini.","She stayed at home with the children."],["Sono restato sveglio tutta la notte.","I stayed awake all night."]],
+ip:[["Restava spesso a dormire da noi.","She often used to sleep over at our place."],["Restavo in casa quando pioveva.","I used to stay home when it rained."],["Restavano in silenzio per ore.","They used to stay in silence for hours."]]}},
+{e:"😂",it:"ridere",en:"to laugh",g:"-ere",i:false,
+pr:["rido","ridi","ride","ridiamo","ridete","ridono"],
+im:["ridevo","ridevi","rideva","ridevamo","ridevate","ridevano"],
+pp:"riso",ax:"avere",
+ex:{pr:[["Rido sempre alle sue barzellette.","I always laugh at his jokes."],["Ridi troppo, non è serio!","You laugh too much, it's not serious!"],["Ridono di tutto.","They laugh at everything."]],
+pg:[["Sto ridendo ancora.","I am still laughing."],["Sta ridendo come una matta.","She is laughing like crazy."],["Stanno ridendo di una storia divertente.","They are laughing about a funny story."]],
+pe:[["Abbiamo riso tutta la sera.","We laughed all evening."],["Ha riso così tanto da piangere.","She laughed so much she cried."],["Ho riso tantissimo a quel film.","I laughed a lot at that film."]],
+ip:[["Rideva di tutto.","She used to laugh at everything."],["Da bambino ridevo sempre.","As a child I was always laughing."],["Ridevano insieme ogni sera.","They used to laugh together every evening."]]}},
+{e:"🧍",it:"rimanere",en:"to remain",g:"-ere",i:true,
+pr:["rimango","rimani","rimane","rimaniamo","rimanete","rimangono"],
+im:["rimanevo","rimanevi","rimaneva","rimanevamo","rimanevate","rimanevano"],
+pp:"rimasto",ax:"essere",
+ex:{pr:[["Rimango a casa stasera.","I am staying home tonight."],["Rimani ancora un po'?","Are you staying a little longer?"],["Rimangono sempre colpiti dal paesaggio.","They are always struck by the landscape."]],
+pg:[["Sto rimanendo calmo.","I am remaining calm."],["Sta rimanendo oltre l'orario.","She is staying past closing time."],["Stanno rimanendo in silenzio.","They are remaining silent."]],
+pe:[["Siamo rimasti colpiti.","We were impressed."],["È rimasto senza parole.","He was left speechless."],["Sono rimasta a casa tutto il giorno.","I stayed home all day."]],
+ip:[["Rimaneva sempre calmo.","He always used to remain calm."],["Rimanevo a volte senza risposta.","I sometimes used to be left without an answer."],["Rimanevano spesso in silenzio.","They often used to remain in silence."]]}},
+{e:"❓",it:"rispondere",en:"to answer",g:"-ere",i:false,
+pr:["rispondo","rispondi","risponde","rispondiamo","rispondete","rispondono"],
+im:["rispondevo","rispondevi","rispondeva","rispondevamo","rispondevate","rispondevano"],
+pp:"risposto",ax:"avere",
+ex:{pr:[["Rispondo subito alle email.","I answer emails right away."],["Rispondi al telefono per favore.","Please answer the phone."],["Rispondono sempre in modo educato.","They always answer politely."]],
+pg:[["Sto rispondendo ai messaggi.","I am replying to messages."],["Sta rispondendo alla domanda.","She is answering the question."],["Stanno rispondendo alle critiche.","They are responding to the criticism."]],
+pe:[["Non ha risposto al telefono.","She did not answer the phone."],["Ho risposto a tutte le domande.","I answered all the questions."],["Abbiamo risposto per tempo.","We replied in time."]],
+ip:[["Non rispondeva mai alle lettere.","He never used to reply to letters."],["Rispondevo sempre in modo diretto.","I always used to answer directly."],["Rispondevano a ogni domanda con pazienza.","They used to answer every question with patience."]]}},
+{e:"🔙",it:"tornare",en:"to return",g:"-are",i:false,
+pr:["torno","torni","torna","torniamo","tornate","tornano"],
+im:["tornavo","tornavi","tornava","tornavamo","tornavate","tornavano"],
+pp:"tornato",ax:"essere",
+ex:{pr:[["Torno a casa alle sette di sera.","I return home at seven in the evening."],["A che ora torni?","What time are you coming back?"],["Tornano sempre dal mare abbronzati.","They always come back from the sea tanned."]],
+pg:[["Sto tornando a casa adesso.","I am heading home now."],["Sta tornando dalla palestra.","She is coming back from the gym."],["Stanno tornando dal viaggio.","They are returning from the trip."]],
+pe:[["È tornato dal viaggio esausto.","He returned from the trip exhausted."],["Siamo tornati dopo mezzanotte.","We got back after midnight."],["È tornata a vivere nella sua città natale.","She returned to live in her hometown."]],
+ip:[["Tornava sempre a piedi anche di notte.","She always used to walk home even at night."],["Tornavo tardi ogni sera quel mese.","I used to come home late every evening that month."],["Tornavano insieme dalla scuola ogni giorno.","They used to come back from school together every day."]]}},
+{e:"🔍",it:"trovare",en:"to find",g:"-are",i:false,
+pr:["trovo","trovi","trova","troviamo","trovate","trovano"],
+im:["trovavo","trovavi","trovava","trovavamo","trovavate","trovavano"],
+pp:"trovato",ax:"avere",
+ex:{pr:[["Trovo sempre parcheggio qui.","I always find parking here."],["Trovi facilmente quello che cerchi?","Do you find what you're looking for easily?"],["Trovano sempre un modo per farcela.","They always find a way to manage."]],
+pg:[["Sto trovando tutto molto interessante.","I am finding everything very interesting."],["Sta trovando il suo ritmo.","She is finding her rhythm."],["Stanno trovando difficoltà.","They are finding it difficult."]],
+pe:[["Ho trovato un appartamento bellissimo.","I found a beautiful flat."],["Ha trovato il portafoglio sul bus.","He found the wallet on the bus."],["Abbiamo trovato la soluzione giusta.","We found the right solution."]],
+ip:[["Trovava sempre la soluzione giusta.","She always used to find the right solution."],["Trovavo difficile alzarmi presto.","I used to find it hard to get up early."],["Trovavano sempre qualcosa da fare.","They always used to find something to do."]]}},
+{e:"🚶",it:"uscire",en:"to go out",g:"-ire",i:true,
+pr:["esco","esci","esce","usciamo","uscite","escono"],
+im:["uscivo","uscivi","usciva","uscivamo","uscivate","uscivano"],
+pp:"uscito",ax:"essere",
+ex:{pr:[["Esco con gli amici ogni sabato sera.","I go out with friends every Saturday night."],["Esci stasera?","Are you going out tonight?"],["Escono raramente la settimana.","They rarely go out during the week."]],
+pg:[["Sto uscendo adesso.","I am going out now."],["Sta uscendo dall'ufficio.","She is leaving the office."],["Stanno uscendo tutti insieme.","They are all going out together."]],
+pe:[["È uscita senza ombrello e si è bagnata.","She went out without an umbrella and got wet."],["Siamo usciti a cena ieri.","We went out for dinner yesterday."],["È uscito di casa alle sei.","He left the house at six."]],
+ip:[["Usciva raramente di sera.","He rarely used to go out in the evening."],["Uscivo ogni weekend con gli amici.","I used to go out every weekend with friends."],["Uscivano sempre insieme il giovedì.","They always used to go out together on Thursdays."]]}},
+{e:"👁️",it:"vedere",en:"to see",g:"-ere",i:false,
+pr:["vedo","vedi","vede","vediamo","vedete","vedono"],
+im:["vedevo","vedevi","vedeva","vedevamo","vedevate","vedevano"],
+pp:"visto",ax:"avere",
+ex:{pr:[["Vedo i miei amici ogni weekend.","I see my friends every weekend."],["Vedi bene senza occhiali?","Can you see well without glasses?"],["Vedono il mondo in modo diverso.","They see the world differently."]],
+pg:[["Sto vedendo un film meraviglioso.","I am watching a wonderful film."],["Sta vedendo qualcuno?","Is she seeing someone?"],["Stiamo vedendo i risultati del lavoro.","We are seeing the results of our work."]],
+pe:[["Ho visto un film bellissimo ieri sera.","I saw a wonderful film last night."],["Ha visto la Torre Eiffel per la prima volta.","She saw the Eiffel Tower for the first time."],["Abbiamo visto tutto quello che c'era da vedere.","We saw everything there was to see."]],
+ip:[["Vedeva poco senza occhiali.","She could barely see without glasses."],["Da bambino vedevo i miei nonni ogni giorno.","As a child I used to see my grandparents every day."],["Vedevamo spesso l'aurora boreale da lì.","We used to often see the northern lights from there."]]}},
+{e:"👋",it:"venire",en:"to come",g:"-ire",i:true,
+pr:["vengo","vieni","viene","veniamo","venite","vengono"],
+im:["venivo","venivi","veniva","venivamo","venivate","venivano"],
+pp:"venuto",ax:"essere",
+ex:{pr:[["Vengo subito, aspettami.","I'm coming right away, wait for me."],["Vieni alla festa sabato?","Are you coming to the party on Saturday?"],["Vengono da molti paesi diversi.","They come from many different countries."]],
+pg:[["Sto venendo, ci metto cinque minuti.","I am coming, I'll be five minutes."],["Sta venendo a piedi.","She is coming on foot."],["Stanno venendo tutti insieme.","They are all coming together."]],
+pe:[["È venuta a trovarmi la settimana scorsa.","She came to visit me last week."],["Sono venuto appena ho potuto.","I came as soon as I could."],["Sono venuti da lontano per questa occasione.","They came from far away for this occasion."]],
+ip:[["Veniva spesso a cena da noi.","He used to come to dinner at our place often."],["Da bambino venivo qui ogni estate.","As a child I used to come here every summer."],["Venivano a trovarci ogni domenica.","They used to come and visit us every Sunday."]]}},
+{e:"🏡",it:"vivere",en:"to live",g:"-ere",i:false,
+pr:["vivo","vivi","vive","viviamo","vivete","vivono"],
+im:["vivevo","vivevi","viveva","vivevamo","vivevate","vivevano"],
+pp:"vissuto",ax:"essere",
+ex:{pr:[["Vivo a Milano da tre anni.","I have been living in Milan for three years."],["Dove vivi adesso?","Where do you live now?"],["Vivono in una piccola casa in campagna.","They live in a small house in the countryside."]],
+pg:[["Sto vivendo il momento più bello della mia vita.","I am living the best moment of my life."],["Sta vivendo una situazione difficile.","She is going through a difficult situation."],["Stanno vivendo un sogno.","They are living a dream."]],
+pe:[["Ho vissuto in Spagna per un anno.","I lived in Spain for a year."],["Ha vissuto cent'anni.","He lived to be a hundred."],["Abbiamo vissuto momenti indimenticabili insieme.","We have lived unforgettable moments together."]],
+ip:[["Viveva in campagna da piccolo.","He used to live in the countryside as a child."],["Vivevo in un piccolo appartamento.","I used to live in a small flat."],["Vivevano senza preoccupazioni.","They used to live without worries."]]}},
+{e:"❤️",it:"volere",en:"to want",g:"-ere",i:true,
+pr:["voglio","vuoi","vuole","vogliamo","volete","vogliono"],
+im:["volevo","volevi","voleva","volevamo","volevate","volevano"],
+pp:"voluto",ax:"avere",
+ex:{pr:[["Voglio imparare a suonare il pianoforte.","I want to learn to play the piano."],["Cosa vuoi mangiare stasera?","What do you want to eat tonight?"],["Vogliono cambiare tutto.","They want to change everything."]],
+pg:[["Sto volendo fare troppe cose insieme.","I am wanting to do too many things at once."],["Sembra che stia volendo andarsene.","It seems like he wants to leave."],["Stanno volendo troppo in poco tempo.","They are wanting too much in too little time."]],
+pe:[["Ho voluto provare qualcosa di nuovo.","I wanted to try something new."],["Ha voluto fare tutto da sola.","She wanted to do everything herself."],["Abbiamo voluto festeggiare in grande.","We wanted to celebrate in style."]],
+ip:[["Voleva diventare attrice da piccola.","She used to want to become an actress as a child."],["Volevo studiare architettura.","I used to want to study architecture."],["Volevamo costruire una casa in montagna.","We used to want to build a house in the mountains."]]}},
+{e:"✍️",it:"scrivere",en:"to write",g:"-ere",i:false,
+pr:["scrivo","scrivi","scrive","scriviamo","scrivete","scrivono"],
+im:["scrivevo","scrivevi","scriveva","scrivevamo","scrivevate","scrivevano"],
+pp:"scritto",ax:"avere",
+ex:{pr:[["Scrivo nel mio diario ogni sera.","I write in my diary every evening."],["Scrivi molto bene in italiano.","You write very well in Italian."],["Scrivono articoli per una rivista locale.","They write articles for a local magazine."]],
+pg:[["Sto scrivendo una lettera a mia zia.","I am writing a letter to my aunt."],["Sta scrivendo il suo primo romanzo.","She is writing her first novel."],["Stiamo scrivendo le istruzioni insieme.","We are writing the instructions together."]],
+pe:[["Ho scritto una lettera lunga.","I wrote a long letter."],["Ha scritto tre romanzi in cinque anni.","She wrote three novels in five years."],["Abbiamo scritto insieme quella canzone.","We wrote that song together."]],
+ip:[["Scriveva poesie da giovane.","She used to write poems when she was young."],["Scrivevo lettere a mano ogni settimana.","I used to write letters by hand every week."],["Scrivevano l'uno all'altro ogni giorno.","They used to write to each other every day."]]}},
+{e:"🧠",it:"sapere",en:"to know (fact)",g:"-ere",i:true,
+pr:["so","sai","sa","sappiamo","sapete","sanno"],
+im:["sapevo","sapevi","sapeva","sapevamo","sapevate","sapevano"],
+pp:"saputo",ax:"avere",
+ex:{pr:[["So parlare tre lingue.","I know how to speak three languages."],["Sai dove si trova la stazione?","Do you know where the station is?"],["Sanno già tutto.","They already know everything."]],
+pg:[["Sto sapendo sempre di più.","I am finding out more and more."],["Sta sapendo gestire la situazione.","She is learning how to handle the situation."],["Stanno sapendo la verità poco a poco.","They are finding out the truth little by little."]],
+pe:[["Non ho saputo nulla fino a ieri.","I did not know anything until yesterday."],["Ha saputo la notizia stamattina.","He found out the news this morning."],["Abbiamo saputo che ti sposi!","We heard that you are getting married!"]],
+ip:[["Sapeva tutto di tutti nel paese.","She used to know everything about everyone."],["Non sapevo come rispondere.","I used not to know how to answer."],["Sapevano sempre la risposta giusta.","They always used to know the right answer."]]}},
+{e:"🎓",it:"studiare",en:"to study",g:"-are",i:false,
+pr:["studio","studi","studia","studiamo","studiate","studiano"],
+im:["studiavo","studiavi","studiava","studiavamo","studiavate","studiavano"],
+pp:"studiato",ax:"avere",
+ex:{pr:[["Studio italiano da due anni.","I have been studying Italian for two years."],["Studi molto o poco?","Do you study a lot or a little?"],["Studiano tutti i giorni fino a tardi.","They study every day until late."]],
+pg:[["Sto studiando per l'esame di domani.","I am studying for tomorrow's exam."],["Sta studiando medicina all'università.","She is studying medicine at university."],["Stiamo studiando la grammatica insieme.","We are studying grammar together."]],
+pe:[["Ho studiato tutta la notte.","I studied all night."],["Ha studiato all'estero per un anno.","She studied abroad for a year."],["Abbiamo studiato molto per superare l'esame.","We studied hard to pass the exam."]],
+ip:[["Studiava sempre in biblioteca.","She used to always study in the library."],["Da studente studiavo in gruppo.","As a student I used to study in groups."],["Studiavano insieme ogni pomeriggio.","They used to study together every afternoon."]]}},
+{e:"🎸",it:"suonare",en:"to play music",g:"-are",i:false,
+pr:["suono","suoni","suona","suoniamo","suonate","suonano"],
+im:["suonavo","suonavi","suonava","suonavamo","suonavate","suonavano"],
+pp:"suonato",ax:"avere",
+ex:{pr:[["Suono la chitarra da dieci anni.","I have played guitar for ten years."],["Suoni uno strumento?","Do you play an instrument?"],["Suonano insieme in una band locale.","They play together in a local band."]],
+pg:[["Sto suonando una nuova canzone.","I am playing a new song."],["Sta suonando il violino in concerto.","She is playing the violin in concert."],["Stanno suonando dal vivo in piazza.","They are playing live in the square."]],
+pe:[["Ha suonato magnificamente davanti a tutti.","She played magnificently in front of everyone."],["Ho suonato la chitarra per tutta la sera.","I played guitar all evening."],["Abbiamo suonato insieme per la prima volta.","We played together for the first time."]],
+ip:[["Suonava il pianoforte da bambino.","He used to play the piano as a child."],["Suonavo in un gruppo rock all'università.","I used to play in a rock band at university."],["Suonavano ogni fine settimana al pub.","They used to play every weekend at the pub."]]}},
+{e:"🧹",it:"pulire",en:"to clean",g:"-ire",i:false,
+pr:["pulisco","pulisci","pulisce","puliamo","pulite","puliscono"],
+im:["pulivo","pulivi","puliva","pulivamo","pulivate","pulivano"],
+pp:"pulito",ax:"avere",
+ex:{pr:[["Pulisco la casa ogni sabato mattina.","I clean the house every Saturday morning."],["Pulisci la stanza prima di uscire.","Clean your room before going out."],["Puliscono gli uffici di notte.","They clean the offices at night."]],
+pg:[["Sto pulendo il bagno.","I am cleaning the bathroom."],["Sta pulendo le finestre.","She is cleaning the windows."],["Stanno pulendo tutto il palazzo.","They are cleaning the whole building."]],
+pe:[["Ho pulito tutto il piano di sopra.","I have cleaned the whole upstairs."],["Ha pulito la cucina con cura.","She cleaned the kitchen carefully."],["Abbiamo pulito l'appartamento da cima a fondo.","We cleaned the flat from top to bottom."]],
+ip:[["Puliva sempre con grande cura.","She always used to clean with great care."],["Pulivo la mia stanza ogni domenica.","I used to clean my room every Sunday."],["Pulivano insieme prima delle feste.","They used to clean together before the holidays."]]}},
+{e:"📝",it:"ricordare",en:"to remember",g:"-are",i:false,
+pr:["ricordo","ricordi","ricorda","ricordiamo","ricordate","ricordano"],
+im:["ricordavo","ricordavi","ricordava","ricordavamo","ricordavate","ricordavano"],
+pp:"ricordato",ax:"avere",
+ex:{pr:[["Ricordo ogni dettaglio di quel giorno.","I remember every detail of that day."],["Ti ricordi dove abbiamo messo le chiavi?","Do you remember where we put the keys?"],["Ricordano ancora il tuo nome.","They still remember your name."]],
+pg:[["Sto ricordando a tutti la riunione.","I am reminding everyone about the meeting."],["Sta ricordando i vecchi tempi.","She is reminiscing about the old times."],["Stiamo cercando di ricordare dove eravamo.","We are trying to remember where we were."]],
+pe:[["Ho ricordato il suo compleanno per fortuna.","I remembered his birthday, luckily."],["Ha ricordato ogni parola del discorso.","She remembered every word of the speech."],["Abbiamo ricordato insieme i bei momenti.","We remembered the good times together."]],
+ip:[["Ricordava tutto a memoria.","She used to remember everything by heart."],["Non ricordavo mai dove avevo messo le cose.","I could never remember where I had put things."],["Ricordavano ogni anniversario con un regalo.","They used to mark every anniversary with a gift."]]}}
+];
+
+function ger(v){return v.g==='-are'?v.it.slice(0,-3)+'ando':v.it.slice(0,-3)+'endo'}
+
+let idx=0,fil=[...V],actF=new Set(),qMode=false,qS={s:0,t:0,ans:false};
+
+function tog(f){actF.has(f)?actF.delete(f):actF.add(f);document.getElementById('f-'+f).classList.toggle('on',actF.has(f));applyF()}
+function togQ(){qMode=!qMode;document.getElementById('f-quiz').classList.toggle('on',qMode);if(fil.length>0){qMode?rQuiz():rMain(fil[idx]);if(!qMode)document.getElementById('mp').scrollTop=0}}
+function applyF(){
+  const q=document.getElementById('sin').value.toLowerCase().trim();
+  fil=V.filter(v=>{
+    const mq=!q||v.it.includes(q)||v.en.toLowerCase().includes(q);
+    if(!mq)return false;
+    if(actF.size===0)return true;
+    return(actF.has('are')&&v.g==='-are')||(actF.has('ere')&&v.g==='-ere')||(actF.has('ire')&&v.g==='-ire')||(actF.has('irr')&&v.i);
+  });
+  document.getElementById('stEl').textContent=fil.length+' verb'+(fil.length!==1?'s':'');
+  idx=0;rList();
+  if(fil.length>0){qMode?rQuiz():rMain(fil[0]);}
+  else document.getElementById('mp').innerHTML='<div class="empty"><div class="ebig">?</div><p>No verbs match</p></div>';
+}
+function pick(it){
+  const i=fil.findIndex(v=>v.it===it);if(i<0)return;
+  idx=i;rList();closeSidebar();
+  if(qMode)rQuiz();else{rMain(fil[idx]);document.getElementById('mp').scrollTop=0}
+}
+function toggleSidebar(){document.getElementById('sb').classList.toggle('open')}
+function closeSidebar(){document.getElementById('sb').classList.remove('open')}
+function rList(){
+  const el=document.getElementById('sbl');let h='';
+  ['-are','-ere','-ire'].forEach(g=>{
+    const arr=fil.filter(v=>v.g===g);if(!arr.length)return;
+    const c=g==='-are'?'are':g==='-ere'?'ere':'ire';
+    h+=`<div class="gl">${g}</div>`;
+    arr.forEach(v=>{
+      const s=fil[idx]?.it===v.it?' sel':'';
+      h+=`<div class="vi${s}" onclick="pick('${v.it}')"><span class="ve">${v.e}</span><div class="vt"><div class="vit">${v.it}</div><div class="ven">${v.en}</div></div>${v.i?`<span class="vb irr">irr</span>`:`<span class="vb ${c}">${g}</span>`}</div>`;
+    });
+  });
+  el.innerHTML=h;
+  const cur=fil[idx];
+  if(cur)document.getElementById('sbt-label').textContent=cur.e+' '+cur.it;
+}
+function exH(arr){return arr.map((x,i)=>`<div class="ex${i===0?' hi':''}"><div class="ei">${x[0]}</div><div class="ee">${x[1]}</div></div>`).join('')}
+function rMain(v){
+  const gc=v.g==='-are'?'tare':v.g==='-ere'?'tere':'tire';
+  const axf=v.ax==='essere'?['sono','sei','è','siamo','siete','sono']:['ho','hai','ha','abbiamo','avete','hanno'];
+  const g=ger(v);
+  const ac=v.ax==='essere'?'aux-e':'aux-a';
+  const prev=fil[idx-1],next=fil[idx+1];
+  document.getElementById('mp').innerHTML=`
+<div class="vh">
+  <div class="vti">${v.e} ${v.it}</div>
+  <div class="ven2">${v.en}</div>
+  <div class="tags">
+    <span class="tag ${gc}">${v.g}</span>
+    ${v.i?'<span class="tag tirr">irregular</span>':''}
+    <span class="tag taux">aux: ${v.ax}</span>
+  </div>
+</div>
+
+<div class="tb">
+  <div class="th"><div class="tn">Presente</div><div class="te2">present tense</div></div>
+  <div class="note">Used for habits, ongoing facts, and general truths. Also covers English "I am …ing" in many situations.</div>
+  <div class="cg">${P.map((p,i)=>`<div class="cr"><span class="pro">${p}</span><span class="form">${v.pr[i]}</span></div>`).join('')}</div>
+  <div class="exs">${exH(v.ex.pr)}</div>
+</div>
+
+<div class="tb">
+  <div class="th"><div class="tn">Progressivo</div><div class="te2">present progressive</div></div>
+  <div class="note"><em>stare</em> + gerundio — for something happening <em>right now at this very moment</em>. The gerundio of <em>${v.it}</em> is <em>${g}</em>.</div>
+  <div class="pg">${P.map((p,i)=>`<div class="pr"><span class="pro">${p}</span><span class="pst">${ST[i]}</span><span class="pge">${g}</span></div>`).join('')}</div>
+  <div class="exs">${exH(v.ex.pg)}</div>
+</div>
+
+<div class="tb">
+  <div class="th"><div class="tn">Passato prossimo</div><div class="te2">present perfect / simple past</div></div>
+  <div class="note">The main past tense in spoken Italian. Auxiliary: <span style="color:${v.ax==='essere'?'var(--te)':'var(--pu)'};font-weight:500">${v.ax}</span> + <span style="color:var(--ac);font-weight:500">${v.pp}</span>. With <em>essere</em>, the participle agrees with the subject's gender and number.</div>
+  <div class="cg">${P.map((p,i)=>`<div class="cr"><span class="pro">${p}</span><span class="form"><span class="${ac}">${axf[i]}</span>${v.pp}</span></div>`).join('')}</div>
+  <div class="exs">${exH(v.ex.pe)}</div>
+</div>
+
+<div class="tb">
+  <div class="th"><div class="tn">Imperfetto</div><div class="te2">imperfect</div></div>
+  <div class="note">For past habits ("used to…"), ongoing background states, and descriptions. Pairs with passato prossimo: imperfetto sets the scene, passato prossimo delivers the event.</div>
+  <div class="cg">${P.map((p,i)=>`<div class="cr"><span class="pro">${p}</span><span class="form">${v.im[i]}</span></div>`).join('')}</div>
+  <div class="exs">${exH(v.ex.ip)}</div>
+</div>
+
+<div class="nav">
+  <button class="nb" ${!prev?'disabled':''} onclick="pick('${prev?.it||''}')">&larr; ${prev?.it||''}</button>
+  <div class="nc"><b>${idx+1}</b> / ${fil.length}</div>
+  <button class="nb" ${!next?'disabled':''} onclick="pick('${next?.it||''}')">${next?.it||''} &rarr;</button>
+</div>`;
+}
+function rQuiz(){
+  const pool=fil.length>=4?fil:V;
+  const qv=pool[Math.floor(Math.random()*pool.length)];
+  const types=['meaning','pres','impf'];
+  const qt=types[Math.floor(Math.random()*types.length)];
+  let q='',cor='',opts=[];
+  if(qt==='meaning'){
+    q=`What does <em>${qv.e} ${qv.it}</em> mean?`;cor=qv.en;
+    opts=[qv,...V.filter(v=>v.it!==qv.it).sort(()=>Math.random()-.5).slice(0,3)].sort(()=>Math.random()-.5).map(v=>({l:v.en,v:v.en}));
+  } else {
+    const pi=Math.floor(Math.random()*6);
+    const arr=qt==='pres'?qv.pr:qv.im;
+    q=`<em>${P[pi]}</em> ___ — ${qt==='pres'?'present':'imperfect'} of <em>${qv.it}</em>?`;
+    cor=arr[pi];
+    opts=[{l:cor,v:cor},...V.filter(v=>v.it!==qv.it).sort(()=>Math.random()-.5).slice(0,3).map(v=>({l:(qt==='pres'?v.pr:v.im)[pi],v:(qt==='pres'?v.pr:v.im)[pi]}))].sort(()=>Math.random()-.5);
+  }
+  qS.ans=false;
+  document.getElementById('mp').innerHTML=`
+<div class="vh" style="margin-bottom:22px;padding-bottom:18px">
+  <div class="vti" style="font-size:30px">Quiz ✦</div>
+  <div style="display:flex;align-items:center;gap:10px;color:var(--di);font-size:13px;margin-top:6px">Score: <span class="qsc">${qS.s} / ${qS.t}</span><button class="qrs" onclick="qS={s:0,t:0,ans:false};rQuiz()">Reset</button></div>
+</div>
+<div class="qq">${q}</div>
+<div class="qo">${opts.map(o=>`<button class="qb" data-v="${o.v.replace(/"/g,'&quot;')}" onclick="chk(this,'${o.v.replace(/'/g,"\\'")}','${cor.replace(/'/g,"\\'")}','${qv.it}')">${o.l}</button>`).join('')}</div>
+<div id="qfb"></div>`;
+}
+function chk(btn,chosen,cor,verbIt){
+  if(qS.ans)return;qS.ans=true;qS.t++;
+  const ok=chosen===cor;if(ok)qS.s++;
+  document.querySelectorAll('.qb').forEach(b=>{b.disabled=true;if(b.dataset.v===cor)b.classList.add('ok');else if(b===btn&&!ok)b.classList.add('no')});
+  const v=V.find(x=>x.it===verbIt);
+  document.getElementById('qfb').innerHTML=`
+<div style="margin-top:22px;padding-top:22px;border-top:1px solid var(--b1)">
+  <div style="font-family:'Playfair Display',serif;font-size:16px;color:${ok?'var(--gr)':'var(--re)'};margin-bottom:12px">${ok?'✓ Corretto!':'✗ La risposta è: '+cor}</div>
+  <div class="exs">${exH(v.ex.pr)}</div>
+  <div style="margin-top:14px"><button class="qnx" onclick="rQuiz()">Next question &rarr;</button></div>
+</div>`;
+}
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT')return;
+  if((e.key==='ArrowRight'||e.key==='ArrowDown')&&idx<fil.length-1){idx++;rList();qMode?rQuiz():(rMain(fil[idx]),document.getElementById('mp').scrollTop=0)}
+  else if((e.key==='ArrowLeft'||e.key==='ArrowUp')&&idx>0){idx--;rList();qMode?rQuiz():(rMain(fil[idx]),document.getElementById('mp').scrollTop=0)}
+});
+function goHome(){
+  qMode=false;document.getElementById('f-quiz').classList.remove('on');
+  actF.clear();['are','ere','ire','irr'].forEach(f=>document.getElementById('f-'+f).classList.remove('on'));
+  document.getElementById('sin').value='';
+  fil=[...V];idx=0;
+  document.getElementById('stEl').textContent=fil.length+' verbs';
+  rList();rMain(fil[0]);document.getElementById('mp').scrollTop=0;
+}
+rList();rMain(fil[0]);
+</script>
+</body>
+</html>
